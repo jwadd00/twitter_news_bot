@@ -1,7 +1,6 @@
 import hmac
 import streamlit as st
 import tweepy
-import os
 import random
 from GoogleNews import GoogleNews
 from newspaper import Article
@@ -107,7 +106,7 @@ with st.form("tweet_form"):
 
                     # Define the prompt
                     persona_string = f"You are a {persona} reading the news."
-                    full_string = f"{persona_string} Write an engaging, ultra captivating post that captures the essence of the news article provided. Keep the post under 300 characters. Please consider the following: {article_text} {article_title} {article_source}"
+                    full_string = f"{persona_string} Write an engaging, ultra captivating post that captures the essence of the news article provided. Keep the post under 300 characters. Embrace your title and consider the following: {article_text} {article_title} {article_source}"
 
                     gn.clear()
 
@@ -118,10 +117,6 @@ with st.form("tweet_form"):
                     # Create tweet text
                     tweet_text = f"{response.text}\n\n[-_-] {bot_title} built by jake"
 
-                    # Display the tweet preview
-                    st.subheader("Preview")
-                    st.write(tweet_text)
-
                     # Store the tweet text in session state for persistence
                     st.session_state.tweet_text = tweet_text
 
@@ -130,13 +125,18 @@ with st.form("tweet_form"):
             else:
                 st.error("No results found.")
 
-        # Display the submit button
-        submit_button = st.form_submit_button("Submit Tweet")
+    # Display the tweet preview if available
+    if "tweet_text" in st.session_state:
+        st.subheader("Preview")
+        st.write(st.session_state.tweet_text)
 
-        if submit_button and "tweet_text" in st.session_state:
-            # Attempt to post the tweet
-            try:
-                client.create_tweet(text=st.session_state.tweet_text)
-                st.success("Tweet posted successfully")
-            except tweepy.TweepyException as e:
-                st.error(f"Error posting tweet: {e}")
+    # Submit button to post the tweet
+    submit_button = st.form_submit_button("Submit Tweet")
+
+    if submit_button and "tweet_text" in st.session_state:
+        # Attempt to post the tweet
+        try:
+            client.create_tweet(text=st.session_state.tweet_text)
+            st.success("Tweet posted successfully")
+        except tweepy.TweepyException as e:
+            st.error(f"Error posting tweet: {e}")
