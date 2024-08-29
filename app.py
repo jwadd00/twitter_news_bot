@@ -77,7 +77,7 @@ with st.form("tweet_form"):
         else:
             # Initialize GoogleNews object
             gn = GoogleNews(region='US')
-            gn.set_period('1d')
+            gn.set_period('7d')
             gn.search(topic)
 
             # Get the search results
