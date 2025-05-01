@@ -115,7 +115,7 @@ with st.form("tweet_form"):
                     response = model.generate_content(full_string)
 
                     # Create tweet text
-                    tweet_text = f"{response.text}\n\n[-_-] {bot_title} built by jake"
+                    tweet_text = f"{response.text}\n\n[-_-] {bot_title}"
 
                     # Store the tweet text in session state for persistence
                     st.session_state.tweet_text = tweet_text
