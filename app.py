@@ -111,7 +111,7 @@ with st.form("tweet_form"):
                     gn.clear()
 
                     # Generate content using Gemini
-                    model = genai.GenerativeModel('gemini-pro')
+                    model = genai.GenerativeModel('gemini-2.5-pro-exp-03-25')
                     response = model.generate_content(full_string)
 
                     # Create tweet text
